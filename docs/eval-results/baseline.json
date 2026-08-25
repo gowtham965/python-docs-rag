@@ -1,0 +1,114 @@
+[
+  {
+    "question": "How do I create an empty dictionary in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I open a file for reading in Python?",
+    "hit_at_5": true,
+    "mrr": 0.2,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What does the itertools.chain function do?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I parse a JSON string into a Python object?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I get the current date and time in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I compile and match a regular expression in Python?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What is the difference between a list and a tuple in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I run tests using unittest?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create an async coroutine and run it with asyncio?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I join file system paths in Python?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I use collections.Counter to count occurrences of items?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What is the Iterable abstract base class used for in collections.abc?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I list the contents of a directory in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I access command-line arguments passed to a Python script?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I check if a file exists using pathlib?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I run a shell command from Python and capture its output?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  }
+]
