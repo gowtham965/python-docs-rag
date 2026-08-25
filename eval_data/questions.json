@@ -1,0 +1,14 @@
+[
+  {"question": "How do I create an empty dictionary in Python?", "expected_source_file": "library/stdtypes.rst", "is_in_scope": true},
+  {"question": "How do I open a file for reading in Python?", "expected_source_file": "library/functions.rst", "is_in_scope": true},
+  {"question": "What does the itertools.chain function do?", "expected_source_file": "library/itertools.rst", "is_in_scope": true},
+  {"question": "How do I parse a JSON string into a Python object?", "expected_source_file": "library/json.rst", "is_in_scope": true},
+  {"question": "How do I get the current date and time in Python?", "expected_source_file": "library/datetime.rst", "is_in_scope": true},
+  {"question": "How do I compile and match a regular expression in Python?", "expected_source_file": "library/re.rst", "is_in_scope": true},
+  {"question": "What is the difference between a list and a tuple in Python?", "expected_source_file": "library/stdtypes.rst", "is_in_scope": true},
+  {"question": "How do I run tests using unittest?", "expected_source_file": "library/unittest.rst", "is_in_scope": true},
+  {"question": "How do I create an async coroutine and run it with asyncio?", "expected_source_file": "library/asyncio-task.rst", "is_in_scope": true},
+  {"question": "How do I join file system paths in Python?", "expected_source_file": "library/os.path.rst", "is_in_scope": true},
+  {"question": "What's the best way to center a div in CSS?", "expected_source_file": null, "is_in_scope": false},
+  {"question": "How do I train a neural network in PyTorch?", "expected_source_file": null, "is_in_scope": false}
+]
