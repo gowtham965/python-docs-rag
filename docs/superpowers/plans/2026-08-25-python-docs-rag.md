@@ -370,7 +370,7 @@ git commit -m "feat: heading-aware RST chunker"
 - Test: `tests/ingestion/test_fetch_docs.py`
 
 **Interfaces:**
-- Produces: `fetch_python_docs(dest_dir: str) -> None`, run manually in Task 19 to populate `data/raw/`.
+- Produces: `fetch_python_docs(dest_dir: str) -> None`, run manually in Task 18 to populate `data/raw/`.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -767,7 +767,7 @@ git commit -m "feat: Reciprocal Rank Fusion"
 
 **Interfaces:**
 - Consumes: `chunk_rst_file` (Task 2), `Embedder` (Task 4), `VectorStore` (Task 5), `Chunk` (Task 1).
-- Produces: `collect_chunks(docs_dir: str) -> List[Chunk]`, `save_chunks(chunks, out_path: str) -> None`, `load_chunks(path: str) -> List[Chunk]`, `build_index(docs_dir: str, chunks_out: str, chroma_path: str) -> int`. `load_chunks` is used by Task 17's wiring; `build_index` is run manually in Task 19.
+- Produces: `collect_chunks(docs_dir: str) -> List[Chunk]`, `save_chunks(chunks, out_path: str) -> None`, `load_chunks(path: str) -> List[Chunk]`, `build_index(docs_dir: str, chunks_out: str, chroma_path: str) -> int`. `load_chunks` is used by Task 17's wiring; `build_index` is run manually in Task 18.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1474,7 +1474,7 @@ git commit -m "feat: RAG query pipeline with out-of-scope guardrail"
 
 **Interfaces:**
 - Produces: `hit_rate_at_k(retrieved_source_files: List[str], expected_source_file: str, k: int) -> bool` and `mean_reciprocal_rank(retrieved_source_files: List[str], expected_source_file: str) -> float`, used by Task 16.
-- Produces: `eval_data/questions.json`, a seed set of hand-written (question, expected_source_file, is_in_scope) records, used by Task 16 and expanded in Task 19.
+- Produces: `eval_data/questions.json`, a seed set of hand-written (question, expected_source_file, is_in_scope) records, used by Task 16 and expanded in Task 18.
 
 - [ ] **Step 1: Write the failing tests**
 
@@ -1561,7 +1561,7 @@ Expected: PASS (4 tests)
 ]
 ```
 
-Note: `expected_source_file` values are best-guess CPython `Doc/` paths — verify and correct them against the actual fetched tree in Task 19, and expand this set to 40-50 questions before running the baseline eval.
+Note: `expected_source_file` values are best-guess CPython `Doc/` paths — verify and correct them against the actual fetched tree in Task 18, and expand this set to 40-50 questions before running the baseline eval.
 
 - [ ] **Step 6: Commit**
 
@@ -1696,7 +1696,7 @@ git commit -m "feat: LLM-as-judge faithfulness/relevance scoring"
 
 **Interfaces:**
 - Consumes: `hit_rate_at_k`, `mean_reciprocal_rank` (Task 14), `judge_answer` (Task 15), `RetrievalResult` (Task 10), `AnswerResult` (Task 13).
-- Produces: `EvalRow` dataclass, `load_questions(path) -> List[dict]`, `run_eval(questions_path, retriever, pipeline, judge_llm_client, report_out_path) -> List[EvalRow]`. Run manually in Task 19 against the real pipeline.
+- Produces: `EvalRow` dataclass, `load_questions(path) -> List[dict]`, `run_eval(questions_path, retriever, pipeline, judge_llm_client, report_out_path) -> List[EvalRow]`. Run manually in Task 18 against the real pipeline.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -1849,7 +1849,7 @@ git commit -m "feat: eval runner producing retrieval + judge metrics report"
 
 **Interfaces:**
 - Consumes: `load_config` (Task 1), `load_chunks` (Task 8), `Embedder` (Task 4), `VectorStore` (Task 5), `BM25Store` (Task 6), `Reranker` (Task 9), `Retriever` (Task 10), `GroqClient` (Task 12), `RagPipeline` (Task 13).
-- Produces: `build_pipeline(chunks_path: str = "data/processed/chunks.json") -> Tuple[RagPipeline, Retriever]`, used by `app.py` and by Task 19's manual eval run.
+- Produces: `build_pipeline(chunks_path: str = "data/processed/chunks.json") -> Tuple[RagPipeline, Retriever]`, used by `app.py` and by Task 18's manual eval run.
 
 - [ ] **Step 1: Write the failing test**
 
@@ -1961,7 +1961,7 @@ if question and question.strip():
 
 - [ ] **Step 6: Manually verify the UI** (no automated test — this is a UI smoke check)
 
-This step requires the real index to exist (built in Task 19). Once it does:
+This step requires the real index to exist (built in Task 18). Once it does:
 
 ```bash
 streamlit run src/pyrag/app.py
