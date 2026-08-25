@@ -22,7 +22,7 @@ def test_load_config_defaults_llm_provider_to_groq(monkeypatch):
     config = load_config()
     assert config.llm_provider == "groq"
     assert config.gemini_api_key is None
-    assert config.gemini_model == "gemini-2.0-flash"
+    assert config.gemini_model == "gemini-3.6-flash"
 
 
 def test_load_config_reads_gemini_settings_when_set(monkeypatch):

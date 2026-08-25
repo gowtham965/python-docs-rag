@@ -16,7 +16,7 @@ class Config:
     relevance_threshold: float = 0.3
     llm_provider: str = "groq"
     gemini_api_key: Optional[str] = None
-    gemini_model: str = "gemini-2.0-flash"
+    gemini_model: str = "gemini-3.6-flash"
 
 
 def load_config() -> Config:
