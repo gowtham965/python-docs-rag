@@ -7,3 +7,4 @@ data/chroma/
 data/processed/
 .pytest_cache/
 *.egg-info/
+study-guides/
