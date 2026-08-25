@@ -1,5 +1,7 @@
 import time
 
+# NOTE: google-generativeai is deprecated upstream in favor of google.genai.
+# Still fully functional as of this writing; migrate when convenient.
 import google.generativeai as genai
 
 
