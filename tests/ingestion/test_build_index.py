@@ -45,7 +45,10 @@ def test_save_and_load_chunks_roundtrip(tmp_path):
     loaded = load_chunks(str(out_path))
 
     assert len(loaded) == len(chunks)
+    assert loaded[0].id == chunks[0].id
     assert loaded[0].text == chunks[0].text
+    assert loaded[0].source_file == chunks[0].source_file
+    assert loaded[0].section_title == chunks[0].section_title
 
 
 def test_build_index_creates_chroma_collection(tmp_path):
