@@ -1,8 +1,10 @@
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
 
-from pyrag.generation.llm_client import GroqClient
+from pyrag.generation.gemini_client import GeminiClient
+from pyrag.generation.llm_client import GroqClient, build_llm_client
 
 
 def test_generate_returns_content_on_success():
@@ -29,3 +31,44 @@ def test_generate_retries_then_raises_after_max_attempts():
             client.generate("a prompt")
 
         assert MockGroq.return_value.chat.completions.create.call_count == 2
+
+
+def test_build_llm_client_returns_groq_client_by_default():
+    config = SimpleNamespace(
+        llm_provider="groq",
+        groq_api_key="key",
+        groq_model="test-model",
+        gemini_api_key=None,
+        gemini_model="test-gemini-model",
+    )
+
+    client = build_llm_client(config)
+
+    assert isinstance(client, GroqClient)
+
+
+def test_build_llm_client_returns_gemini_client_when_configured():
+    config = SimpleNamespace(
+        llm_provider="gemini",
+        groq_api_key="key",
+        groq_model="test-model",
+        gemini_api_key="gemini-key",
+        gemini_model="test-gemini-model",
+    )
+
+    client = build_llm_client(config)
+
+    assert isinstance(client, GeminiClient)
+
+
+def test_build_llm_client_raises_when_gemini_selected_without_api_key():
+    config = SimpleNamespace(
+        llm_provider="gemini",
+        groq_api_key="key",
+        groq_model="test-model",
+        gemini_api_key=None,
+        gemini_model="test-gemini-model",
+    )
+
+    with pytest.raises(RuntimeError, match="GEMINI_API_KEY"):
+        build_llm_client(config)

@@ -11,6 +11,7 @@ dependencies = [
     "chromadb>=0.5",
     "rank-bm25>=0.2.2",
     "groq>=0.11",
+    "google-generativeai>=0.8",
     "streamlit>=1.38",
     "python-dotenv>=1.0",
     "numpy>=1.26",

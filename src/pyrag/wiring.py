@@ -5,7 +5,7 @@ from pyrag.retrieval.vector_store import VectorStore
 from pyrag.retrieval.bm25_store import BM25Store
 from pyrag.retrieval.reranker import Reranker
 from pyrag.retrieval.retriever import Retriever
-from pyrag.generation.llm_client import GroqClient
+from pyrag.generation.llm_client import build_llm_client
 from pyrag.generation.pipeline import RagPipeline
 
 
@@ -27,5 +27,5 @@ def build_pipeline(chunks_path: str = "data/processed/chunks.json"):
         chunk_lookup=chunk_lookup,
         relevance_threshold=config.relevance_threshold,
     )
-    llm_client = GroqClient(api_key=config.groq_api_key, model=config.groq_model)
+    llm_client = build_llm_client(config)
     return RagPipeline(retriever=retriever, llm_client=llm_client), retriever
