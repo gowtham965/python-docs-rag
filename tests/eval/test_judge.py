@@ -28,3 +28,17 @@ def test_judge_answer_parses_json_score():
     score = judge_answer("q", "a", [], llm_client)
     assert score.faithfulness == 5
     assert score.relevance == 4
+
+
+def test_judge_answer_parses_json_score_wrapped_in_markdown_fence():
+    llm_client = FakeLLMClient('```json\n{"faithfulness": 3, "relevance": 2}\n```')
+    score = judge_answer("q", "a", [], llm_client)
+    assert score.faithfulness == 3
+    assert score.relevance == 2
+
+
+def test_judge_answer_parses_json_score_with_prose_wrapping():
+    llm_client = FakeLLMClient('Here is my score: {"faithfulness": 4, "relevance": 5}')
+    score = judge_answer("q", "a", [], llm_client)
+    assert score.faithfulness == 4
+    assert score.relevance == 5
