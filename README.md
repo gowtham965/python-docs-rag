@@ -1,3 +1,13 @@
+---
+title: Python Docs RAG
+emoji: 🐍
+colorFrom: blue
+colorTo: green
+sdk: streamlit
+app_file: src/pyrag/app.py
+pinned: false
+---
+
 # Python Docs RAG
 
 A retrieval-augmented Q&A system over the Python standard library docs, with a
