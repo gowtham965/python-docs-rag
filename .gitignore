@@ -8,3 +8,4 @@ data/processed/
 .pytest_cache/
 *.egg-info/
 study-guides/
+.DS_Store
