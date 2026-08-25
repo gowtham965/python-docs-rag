@@ -20,9 +20,16 @@ if "history" not in st.session_state:
 question = st.chat_input("Ask a question about the Python standard library...")
 
 if question and question.strip():
-    with st.spinner("Retrieving and generating..."):
-        result = pipeline.answer(question)
-    st.session_state.history.append((question, result))
+    try:
+        with st.spinner("Retrieving and generating..."):
+            result = pipeline.answer(question)
+        st.session_state.history.append((question, result))
+    except Exception:
+        st.error(
+            "Something went wrong answering that question — the LLM provider "
+            "may be temporarily rate-limited or unavailable. Please try again "
+            "in a moment."
+        )
 
 for past_question, result in st.session_state.history:
     with st.chat_message("user"):
