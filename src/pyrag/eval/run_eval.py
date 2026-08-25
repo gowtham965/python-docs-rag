@@ -34,26 +34,30 @@ def run_eval(
         if not item["is_in_scope"]:
             continue
 
-        retrieval = retriever.retrieve(item["question"])
-        source_files = [rc.chunk.source_file for rc in retrieval.chunks]
+        try:
+            retrieval = retriever.retrieve(item["question"])
+            source_files = [rc.chunk.source_file for rc in retrieval.chunks]
 
-        hit = hit_rate_at_k(source_files, item["expected_source_file"], k=5)
-        mrr = mean_reciprocal_rank(source_files, item["expected_source_file"])
+            hit = hit_rate_at_k(source_files, item["expected_source_file"], k=5)
+            mrr = mean_reciprocal_rank(source_files, item["expected_source_file"])
 
-        result = pipeline.answer(item["question"])
-        score = judge_answer(item["question"], result.answer, result.sources, judge_llm_client)
+            result = pipeline.answer(item["question"])
+            score = judge_answer(item["question"], result.answer, result.sources, judge_llm_client)
 
-        rows.append(
-            EvalRow(
-                question=item["question"],
-                hit_at_5=hit,
-                mrr=mrr,
-                faithfulness=score.faithfulness,
-                relevance=score.relevance,
+            rows.append(
+                EvalRow(
+                    question=item["question"],
+                    hit_at_5=hit,
+                    mrr=mrr,
+                    faithfulness=score.faithfulness,
+                    relevance=score.relevance,
+                )
             )
-        )
+        except Exception as error:
+            print(f"Skipping question due to error: {item['question']!r}: {error}")
+        finally:
+            Path(report_out_path).write_text(
+                json.dumps([asdict(r) for r in rows], indent=2), encoding="utf-8"
+            )
 
-    Path(report_out_path).write_text(
-        json.dumps([asdict(r) for r in rows], indent=2), encoding="utf-8"
-    )
     return rows
