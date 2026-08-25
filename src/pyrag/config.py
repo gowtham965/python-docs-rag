@@ -8,7 +8,7 @@ load_dotenv()
 @dataclass(frozen=True)
 class Config:
     groq_api_key: str
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-20b"
     embedding_model: str = "BAAI/bge-small-en-v1.5"
     reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
     chroma_path: str = "data/chroma"
