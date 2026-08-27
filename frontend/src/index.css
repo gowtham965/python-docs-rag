@@ -45,3 +45,18 @@ body {
   font-size: 0.85rem;
   margin-top: 0.5rem;
 }
+
+.message.assistant :is(p, ul, ol) {
+  margin: 0 0 0.5em;
+}
+
+.message.assistant :is(p, ul, ol):last-child {
+  margin-bottom: 0;
+}
+
+.message.assistant code {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 0.25em;
+  padding: 0.1em 0.3em;
+  font-size: 0.9em;
+}

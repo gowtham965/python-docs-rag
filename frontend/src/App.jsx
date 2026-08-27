@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkBreaks from 'remark-breaks'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 const ERROR_MESSAGE =
@@ -101,7 +103,13 @@ export default function App() {
       <div className="messages">
         {messages.map((message, index) => (
           <div key={index} className={`message ${message.role}`}>
-            <p>{message.text}</p>
+            {message.role === 'assistant' ? (
+              // react-markdown escapes raw HTML by default, so this is also
+              // the safe way to render LLM-generated text.
+              <ReactMarkdown remarkPlugins={[remarkBreaks]}>{message.text}</ReactMarkdown>
+            ) : (
+              <p>{message.text}</p>
+            )}
             {message.role === 'assistant' && <SourcesList sources={message.sources} />}
           </div>
         ))}
