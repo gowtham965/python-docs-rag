@@ -72,7 +72,7 @@ flawless; see "Known issues."
 
 ```bash
 pip install -e ".[dev]"
-cp .env.example .env  # set LLM_PROVIDER=gemini and add your GEMINI_API_KEY
+cp .env.example .env  # add your GROQ_API_KEY
 python -c "from pyrag.ingestion.fetch_docs import fetch_python_docs; fetch_python_docs('data/raw/cpython')"
 python -c "from pyrag.ingestion.build_index import build_index; build_index('data/raw/cpython/Doc', 'data/processed/chunks.json', 'data/chroma')"
 streamlit run src/pyrag/app.py
