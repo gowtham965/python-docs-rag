@@ -27,6 +27,29 @@ class GroqClient:
                     time.sleep(self._backoff_seconds * (2 ** attempt))
         raise RuntimeError(f"Groq API failed after {self._max_retries} attempts") from last_error
 
+    def generate_stream(self, prompt: str):
+        stream = None
+        last_error = None
+        for attempt in range(self._max_retries):
+            try:
+                stream = self._client.chat.completions.create(
+                    model=self._model,
+                    messages=[{"role": "user", "content": prompt}],
+                    stream=True,
+                )
+                break
+            except Exception as error:
+                last_error = error
+                if attempt < self._max_retries - 1:
+                    time.sleep(self._backoff_seconds * (2 ** attempt))
+        else:
+            raise RuntimeError(f"Groq API failed after {self._max_retries} attempts") from last_error
+
+        for chunk in stream:
+            delta = chunk.choices[0].delta.content
+            if delta:
+                yield delta
+
 
 def build_llm_client(config):
     if config.llm_provider == "gemini":
