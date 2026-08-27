@@ -4,6 +4,11 @@ WORKDIR /app
 
 COPY pyproject.toml ./
 COPY src ./src
+
+# CPU-only torch: pip's default Linux wheel pulls ~15 unused NVIDIA/CUDA
+# packages (this app only runs the embedder/reranker on CPU by design),
+# bloating both image size and RAM usage on a memory-constrained host.
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -e .
 
 COPY download_index.py ./
