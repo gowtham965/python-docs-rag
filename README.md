@@ -1,13 +1,3 @@
----
-title: Python Docs RAG
-emoji: 🐍
-colorFrom: blue
-colorTo: green
-sdk: streamlit
-app_file: src/pyrag/app.py
-pinned: false
----
-
 # Python Docs RAG
 
 A retrieval-augmented Q&A system over the Python standard library docs, with a
@@ -70,13 +60,25 @@ flawless; see "Known issues."
 
 ## Running locally
 
+Backend:
+
 ```bash
 pip install -e ".[dev]"
 cp .env.example .env  # add your GROQ_API_KEY
 python -c "from pyrag.ingestion.fetch_docs import fetch_python_docs; fetch_python_docs('data/raw/cpython')"
 python -c "from pyrag.ingestion.build_index import build_index; build_index('data/raw/cpython/Doc', 'data/processed/chunks.json', 'data/chroma')"
-streamlit run src/pyrag/app.py
+uvicorn pyrag.server:app --reload --port 8000
 ```
+
+Frontend (in a second terminal):
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the URL Vite prints (defaults to `http://localhost:5173`).
 
 ## Running tests
 
