@@ -85,3 +85,32 @@ Open the URL Vite prints (defaults to `http://localhost:5173`).
 ```bash
 pytest
 ```
+
+## Deployment
+
+Backend (FastAPI) deploys as a Docker image on [Render](https://render.com);
+frontend (React/Vite) deploys as a static build on
+[Vercel](https://vercel.com).
+
+**Index data:** the prebuilt search index (`chunks.json` + the Chroma vector
+store) is hosted on a public Hugging Face dataset,
+[`Gowtham8Ai/python-docs-rag-index`](https://huggingface.co/datasets/Gowtham8Ai/python-docs-rag-index),
+rather than committed to this repo — `chroma.sqlite3` alone is 110MB, over
+GitHub's 100MB per-file limit. `download_index.py` fetches it during the
+Docker build (see `Dockerfile`).
+
+**Backend setup (Render):**
+1. New → Blueprint, connect this GitHub repo. `render.yaml` defines the
+   service (Docker runtime, builds from `Dockerfile`).
+2. Set the `GROQ_API_KEY`, `GEMINI_API_KEY`, and `FRONTEND_ORIGIN` env vars
+   in the Render dashboard (marked `sync: false` in `render.yaml`, so they're
+   not stored in the repo). `FRONTEND_ORIGIN` should be set once the frontend
+   URL is known (step below) — update and redeploy after.
+3. Once live, note the service URL (e.g. `https://python-docs-rag-api.onrender.com`).
+
+**Frontend setup (Vercel):**
+1. New Project, import this GitHub repo, set the root directory to
+   `frontend/`. Vercel auto-detects the Vite build.
+2. Set the `VITE_API_URL` env var to the Render backend URL from above.
+3. Deploy, then update the backend's `FRONTEND_ORIGIN` to the resulting
+   Vercel URL and redeploy the backend so CORS allows it.

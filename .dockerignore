@@ -1,0 +1,16 @@
+.git
+.github
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+*.egg-info
+data
+frontend/node_modules
+frontend/dist
+.env
+docs
+tests
+eval_data
+.claude
+.superpowers
