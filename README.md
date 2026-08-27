@@ -1,3 +1,13 @@
+---
+title: Python Docs RAG API
+emoji: 🐍
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # Python Docs RAG
 
 A retrieval-augmented Q&A system over the Python standard library docs, with a
@@ -88,9 +98,16 @@ pytest
 
 ## Deployment
 
-Backend (FastAPI) deploys as a Docker image on [Render](https://render.com);
-frontend (React/Vite) deploys as a static build on
+Backend (FastAPI) deploys as a Docker Space on
+[Hugging Face Spaces](https://huggingface.co/spaces/Gowtham8Ai/python-docs-rag)
+(free CPU tier, 16GB RAM); frontend (React/Vite) deploys as a static build on
 [Vercel](https://vercel.com).
+
+(An earlier iteration deployed the backend on Render — its free/Starter tiers
+only offer 512MB RAM, which wasn't enough to load `torch` +
+`sentence-transformers` + `chromadb` + the cross-encoder together even after
+switching to a CPU-only torch build. HF Spaces' free tier gives 16GB, with
+plenty of headroom, at no cost.)
 
 **Index data:** the prebuilt search index (`chunks.json` + the Chroma vector
 store) is hosted on a public Hugging Face dataset,
@@ -99,18 +116,18 @@ rather than committed to this repo — `chroma.sqlite3` alone is 110MB, over
 GitHub's 100MB per-file limit. `download_index.py` fetches it during the
 Docker build (see `Dockerfile`).
 
-**Backend setup (Render):**
-1. New → Blueprint, connect this GitHub repo. `render.yaml` defines the
-   service (Docker runtime, builds from `Dockerfile`).
-2. Set the `GROQ_API_KEY`, `GEMINI_API_KEY`, and `FRONTEND_ORIGIN` env vars
-   in the Render dashboard (marked `sync: false` in `render.yaml`, so they're
-   not stored in the repo). `FRONTEND_ORIGIN` should be set once the frontend
-   URL is known (step below) — update and redeploy after.
-3. Once live, note the service URL (e.g. `https://python-docs-rag-api.onrender.com`).
+**Backend setup (Hugging Face Spaces):**
+1. The Space's `sdk: docker` + `app_port: 8000` front-matter (top of this
+   file) tells HF Spaces to build and run `Dockerfile` directly.
+2. Push this repo to the Space's git remote: `git push space main`.
+3. Set `GROQ_API_KEY`, `GEMINI_API_KEY`, and `FRONTEND_ORIGIN` as Space
+   secrets (Settings → Variables and secrets, or `hf spaces secrets add`).
+4. Once live, note the Space's URL
+   (`https://gowtham8ai-python-docs-rag.hf.space`).
 
 **Frontend setup (Vercel):**
 1. New Project, import this GitHub repo, set the root directory to
    `frontend/`. Vercel auto-detects the Vite build.
-2. Set the `VITE_API_URL` env var to the Render backend URL from above.
-3. Deploy, then update the backend's `FRONTEND_ORIGIN` to the resulting
-   Vercel URL and redeploy the backend so CORS allows it.
+2. Set the `VITE_API_URL` env var to the Space URL from above.
+3. Deploy, then update the backend's `FRONTEND_ORIGIN` secret to the
+   resulting Vercel URL and restart the Space so CORS allows it.
