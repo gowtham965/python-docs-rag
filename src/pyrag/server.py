@@ -1,5 +1,6 @@
 import json
 import os
+import threading
 
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,13 +10,16 @@ from pydantic import BaseModel
 from pyrag.wiring import build_pipeline
 
 _pipeline = None
+_pipeline_lock = threading.Lock()
 
 
 def get_pipeline():
     global _pipeline
     if _pipeline is None:
-        pipeline, _ = build_pipeline()
-        _pipeline = pipeline
+        with _pipeline_lock:
+            if _pipeline is None:
+                pipeline, _ = build_pipeline()
+                _pipeline = pipeline
     return _pipeline
 
 
