@@ -34,3 +34,25 @@ class GeminiClient:
                 if attempt < self._max_retries - 1:
                     time.sleep(self._backoff_seconds * (2 ** attempt))
         raise RuntimeError(f"Gemini API failed after {self._max_retries} attempts") from last_error
+
+    def generate_stream(self, prompt: str):
+        response = None
+        last_error = None
+        for attempt in range(self._max_retries):
+            try:
+                response = self._model.generate_content(
+                    prompt,
+                    stream=True,
+                    request_options={"timeout": self._request_timeout_seconds},
+                )
+                break
+            except Exception as error:
+                last_error = error
+                if attempt < self._max_retries - 1:
+                    time.sleep(self._backoff_seconds * (2 ** attempt))
+        else:
+            raise RuntimeError(f"Gemini API failed after {self._max_retries} attempts") from last_error
+
+        for chunk in response:
+            if chunk.text:
+                yield chunk.text
