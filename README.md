@@ -17,30 +17,76 @@ harness (retrieval metrics + LLM-as-judge).
 
 ## Architecture
 
-See `docs/superpowers/specs/2026-08-25-python-docs-rag-design.md` for the
-full design.
+Two pipelines, both hand-built (no LangChain/LlamaIndex) so every stage is
+easy to open up and explain. Full design rationale in
+`docs/superpowers/specs/2026-08-25-python-docs-rag-design.md`.
+
+**Ingestion — offline, run once (or whenever the docs change):**
+
+```
+CPython Doc/*.rst
+  → heading-aware chunker (splits on RST headings first, then windows
+    any section over 400 words with 50-word overlap)
+  → BAAI/bge-small-en-v1.5 embeddings (local, CPU)
+  → Chroma (persisted vector index)  +  chunks.json (canonical chunk store)
+```
+
+**Query — one call per user question:**
+
+```
+question
+  ├─ vector search (Chroma, cosine similarity, top 20)  ─┐
+  └─ BM25 keyword search (rank_bm25, top 20)           ─┴→ Reciprocal Rank
+                                                            Fusion (k=60)
+                                                              ↓
+                                                   cross-encoder rerank
+                                                   (ms-marco-MiniLM-L-6-v2,
+                                                    top 20 → top 5)
+                                                              ↓
+                                                  confidence gate: is top
+                                                  reranked score ≥ 0.3?
+                                              ┌───────────────┴───────────────┐
+                                       no → "I don't know"        yes → cited answer
+                                       (no LLM call)               (Groq / Gemini / OpenAI,
+                                                                     swappable via LLM_PROVIDER)
+```
+
+Key design choices:
+- **Hybrid retrieval over vector-only** — BM25 catches exact-term/API-name
+  matches (`os.path.join`) that embedding similarity can blur.
+- **Reciprocal Rank Fusion over a weighted score blend** — BM25 and cosine
+  scores live on incomparable scales; RRF uses rank position only, so it
+  sidesteps that entirely.
+- **Cross-encoder rerank after fusion** — fusion is cheap but only a weak
+  first-pass signal; a cross-encoder scores query+chunk jointly for far
+  better precision, applied only to the narrowed top 20 since it's too
+  slow to run over the whole corpus.
+- **Confidence gate before generation** — RAG's biggest failure mode is
+  confidently answering from irrelevant context, so a low top-rerank-score
+  short-circuits straight to "I don't know" without ever calling the LLM.
+
+See `docs/interview-prep.md` (gitignored, local-only) for the full
+stage-by-stage breakdown, named limitations, and design-decision Q&A.
 
 ## Baseline eval results
 
 See `docs/eval-results/baseline.json`.
 
-**Note on completeness:** the eval question set has 50 in-scope questions,
-but this baseline run only completed **16 of 50** before the Groq account's
-daily token quota (200,000 TPD, shared per-model on the `on_demand` tier)
-was exhausted mid-run — first on `openai/gpt-oss-120b`, then again on the
-smaller `openai/gpt-oss-20b` fallback. `run_eval` now saves its report
-incrementally after every question and skips (rather than crashes on)
-individual API failures, so the 16 completed rows are real, complete
-results — just a partial sample rather than the full 50. See "Known issues"
-below.
+**Full 50/50 baseline**, run against the `openai` provider (`gpt-4o-mini`
+for both generation and judging) specifically to avoid the Groq daily-quota
+ceiling that capped an earlier run at 16/50 (see "Known issues" below for
+that incident — `run_eval`'s incremental-save/skip-on-failure resilience,
+built in response to it, is still in place and still real; this run just
+didn't need it).
 
-Summary over the 16 completed rows: hit@5=0.69, MRR=0.45,
-faithfulness=5.00/5, relevance=5.00/5.
+Summary over all 50 completed rows: hit@5=0.72, MRR=0.55,
+faithfulness=4.74/5, relevance=4.36/5.
 
-Every completed row scored a perfect 5/5 on both faithfulness and relevance
-— worth treating with some skepticism as a judge-signal issue (little
-discriminating power on this sample) rather than as evidence the pipeline is
-flawless; see "Known issues."
+Unlike the earlier partial run — where every row scored a flat 5/5 on both
+judge dimensions (a discriminating-power problem, not a flawless pipeline)
+— this full run shows real spread: several rows scored 1/5 on faithfulness
+and/or relevance, so the judge is meaningfully separating good answers from
+bad ones on this sample.
 
 ## Known issues / deviations from the original plan
 
@@ -59,9 +105,11 @@ flawless; see "Known issues."
   question, each call carrying several retrieved doc chunks as context) uses
   more than that in a single run. The quota was exhausted on
   `openai/gpt-oss-120b` after ~30 questions, and again on
-  `openai/gpt-oss-20b` after 16 questions in the run captured here. A
-  complete 50/50 baseline needs either a higher-tier Groq plan or spreading
-  the eval run across multiple days/quota resets.
+  `openai/gpt-oss-20b` after 16 questions in the run captured here. Rather
+  than get a higher-tier Groq plan or spread the run across multiple quota
+  resets, the completed 50/50 baseline above was run against OpenAI instead
+  (`LLM_PROVIDER=openai`, added specifically to route around this) — Groq
+  remains the free default for normal use.
 - **`run_eval` resilience fix.** Originally a single Groq failure crashed
   the whole eval loop with nothing saved. `run_eval` now wraps each
   question in try/except (skipping and logging on failure) and writes the

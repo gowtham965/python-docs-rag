@@ -5,6 +5,7 @@ import pytest
 
 from pyrag.generation.gemini_client import GeminiClient
 from pyrag.generation.llm_client import GroqClient, build_llm_client
+from pyrag.generation.openai_client import OpenAIClient
 
 
 def test_generate_returns_content_on_success():
@@ -71,6 +72,37 @@ def test_build_llm_client_raises_when_gemini_selected_without_api_key():
     )
 
     with pytest.raises(RuntimeError, match="GEMINI_API_KEY"):
+        build_llm_client(config)
+
+
+def test_build_llm_client_returns_openai_client_when_configured():
+    config = SimpleNamespace(
+        llm_provider="openai",
+        groq_api_key="key",
+        groq_model="test-model",
+        gemini_api_key=None,
+        gemini_model="test-gemini-model",
+        openai_api_key="openai-key",
+        openai_model="test-openai-model",
+    )
+
+    client = build_llm_client(config)
+
+    assert isinstance(client, OpenAIClient)
+
+
+def test_build_llm_client_raises_when_openai_selected_without_api_key():
+    config = SimpleNamespace(
+        llm_provider="openai",
+        groq_api_key="key",
+        groq_model="test-model",
+        gemini_api_key=None,
+        gemini_model="test-gemini-model",
+        openai_api_key=None,
+        openai_model="test-openai-model",
+    )
+
+    with pytest.raises(RuntimeError, match="OPENAI_API_KEY"):
         build_llm_client(config)
 
 

@@ -17,6 +17,8 @@ class Config:
     llm_provider: str = "groq"
     gemini_api_key: Optional[str] = None
     gemini_model: str = "gemini-3.6-flash"
+    openai_api_key: Optional[str] = None
+    openai_model: str = "gpt-4o-mini"
 
 
 def load_config() -> Config:
@@ -27,8 +29,10 @@ def load_config() -> Config:
         )
     llm_provider = os.environ.get("LLM_PROVIDER", "groq")
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
     return Config(
         groq_api_key=api_key,
         llm_provider=llm_provider,
         gemini_api_key=gemini_api_key,
+        openai_api_key=openai_api_key,
     )

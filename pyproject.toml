@@ -12,6 +12,7 @@ dependencies = [
     "rank-bm25>=0.2.2",
     "groq>=0.11",
     "google-generativeai>=0.8",
+    "openai>=1.50",
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
     "python-dotenv>=1.0",

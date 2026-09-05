@@ -32,3 +32,13 @@ def test_load_config_reads_gemini_settings_when_set(monkeypatch):
     config = load_config()
     assert config.llm_provider == "gemini"
     assert config.gemini_api_key == "gemini-key-456"
+
+
+def test_load_config_reads_openai_settings_when_set(monkeypatch):
+    monkeypatch.setenv("GROQ_API_KEY", "test-key-123")
+    monkeypatch.setenv("LLM_PROVIDER", "openai")
+    monkeypatch.setenv("OPENAI_API_KEY", "openai-key-789")
+    config = load_config()
+    assert config.llm_provider == "openai"
+    assert config.openai_api_key == "openai-key-789"
+    assert config.openai_model == "gpt-4o-mini"

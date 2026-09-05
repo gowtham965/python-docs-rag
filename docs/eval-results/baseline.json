@@ -88,7 +88,7 @@
     "hit_at_5": false,
     "mrr": 0.0,
     "faithfulness": 5,
-    "relevance": 5
+    "relevance": 1
   },
   {
     "question": "How do I access command-line arguments passed to a Python script?",
@@ -109,6 +109,244 @@
     "hit_at_5": true,
     "mrr": 0.5,
     "faithfulness": 5,
+    "relevance": 1
+  },
+  {
+    "question": "How do I configure a basic logger in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
     "relevance": 5
+  },
+  {
+    "question": "How do I annotate a function that returns an Optional value?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 1,
+    "relevance": 1
+  },
+  {
+    "question": "How do I create a dataclass with default values in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I read a CSV file into rows in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I define command-line arguments using argparse?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What does functools.lru_cache do?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I generate a random integer in a range in Python?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I compute the square root of a number in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 1
+  },
+  {
+    "question": "How do I define an enumeration in Python?",
+    "hit_at_5": true,
+    "mrr": 0.25,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create and start a new thread in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 1
+  },
+  {
+    "question": "How do I run a function in a separate process using multiprocessing?",
+    "hit_at_5": true,
+    "mrr": 0.25,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create a TCP socket connection in Python?",
+    "hit_at_5": true,
+    "mrr": 0.5,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I copy a file in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create a temporary file in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I compute the SHA-256 hash of a string in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 1,
+    "relevance": 1
+  },
+  {
+    "question": "How do I perform precise decimal arithmetic in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I generate a random UUID in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I wrap text to a fixed width in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What is string.Template used for in Python?",
+    "hit_at_5": true,
+    "mrr": 0.3333333333333333,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I implement a priority queue using heapq?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I find the insertion point for a value in a sorted list using bisect?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I use a thread-safe FIFO queue in Python?",
+    "hit_at_5": true,
+    "mrr": 0.25,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create a context manager using a generator function?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "What is io.StringIO used for in Python?",
+    "hit_at_5": true,
+    "mrr": 0.2,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I serialize a Python object to bytes using pickle?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I connect to a SQLite database in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I measure elapsed time in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 1,
+    "relevance": 1
+  },
+  {
+    "question": "What is the difference between copy.copy and copy.deepcopy in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I issue a deprecation warning in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I print a stack trace for an exception in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 4,
+    "relevance": 5
+  },
+  {
+    "question": "How do I get the signature of a function at runtime in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I create a zip archive in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I base64 encode binary data in Python?",
+    "hit_at_5": true,
+    "mrr": 1.0,
+    "faithfulness": 5,
+    "relevance": 5
+  },
+  {
+    "question": "How do I compute the mean of a list of numbers in Python?",
+    "hit_at_5": false,
+    "mrr": 0.0,
+    "faithfulness": 5,
+    "relevance": 1
   }
 ]
