@@ -18,8 +18,7 @@ harness (retrieval metrics + LLM-as-judge).
 ## Architecture
 
 Two pipelines, both hand-built (no LangChain/LlamaIndex) so every stage is
-easy to open up and explain. Full design rationale in
-`docs/superpowers/specs/2026-08-25-python-docs-rag-design.md`.
+easy to open up and explain.
 
 **Ingestion — offline, run once (or whenever the docs change):**
 
@@ -64,9 +63,6 @@ Key design choices:
 - **Confidence gate before generation** — RAG's biggest failure mode is
   confidently answering from irrelevant context, so a low top-rerank-score
   short-circuits straight to "I don't know" without ever calling the LLM.
-
-See `docs/interview-prep.md` (gitignored, local-only) for the full
-stage-by-stage breakdown, named limitations, and design-decision Q&A.
 
 ## Baseline eval results
 

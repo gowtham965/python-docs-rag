@@ -1,7 +1,5 @@
 # Python Docs RAG Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-
 **Goal:** Build a deployed, retrieval-augmented Q&A web app over the Python standard library docs, with a hand-built hybrid retrieval pipeline and a custom evaluation harness that produces before/after metrics as the pipeline is tuned.
 
 **Architecture:** Three independent pipelines — offline ingestion (fetch docs → chunk → embed → index), runtime query (embed → hybrid retrieve → fuse → rerank → generate), and offline eval (retrieval metrics + LLM-as-judge against a hand-labeled question set). Core retrieval/fusion/eval logic is hand-implemented rather than delegated to a framework, per the spec's learning goal.
